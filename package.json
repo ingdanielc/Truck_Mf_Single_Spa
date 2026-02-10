@@ -1,6 +1,6 @@
 {
   "name": "single-root-config",
-  "version": "0.0.5",
+  "version": "0.0.0",
   "scripts": {
     "start": "webpack serve --port 9000 --env env=local isLocal",
     "lint": "eslint src --ext js,ts,tsx",
@@ -57,5 +57,5 @@
     "primeng": "^15.4.1",
     "single-spa": "^5.9.3"
   },
-  "types": "dist/Gym-root-config.d.ts"
+  "types": "dist/Truck-root-config.d.ts"
 }
