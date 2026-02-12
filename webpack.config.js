@@ -44,11 +44,11 @@ module.exports = (webpackConfigEnv, argv) => {
         inject: false,
         template: "src/index.ejs",
         templateParameters: {
-          isLocal: webpackConfigEnv.isLocal, 
-          isProd: webpackConfigEnv.isProd, 
-          isQa: webpackConfigEnv.isQa, 
+          isLocal: webpackConfigEnv.isLocal,
+          isProd: webpackConfigEnv.isProd,
+          isQa: webpackConfigEnv.isQa,
           isDev: webpackConfigEnv.isDev,
-          orgName: orgName 
+          orgName: orgName
         },
       }),
     ],

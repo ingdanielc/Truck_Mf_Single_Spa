@@ -6,11 +6,11 @@ const basePath = process.env['BASE_PATH'];
 const TIMEOUT = process.env['TIMEOUT'];
 
 if (globalThis.location.pathname === '/') {
-  globalThis.history.pushState({}, '', '/gym/auth');
+  globalThis.history.pushState({}, '', '/truck/auth');
 }
 
-if (globalThis.location.pathname === '/gym/') {
-  globalThis.history.pushState({}, '', '/gym/hub/home');
+if (globalThis.location.pathname === '/truck/') {
+  globalThis.history.pushState({}, '', '/truck/hub/home');
 }
 
 registerApplication({
