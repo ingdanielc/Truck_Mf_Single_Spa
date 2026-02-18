@@ -38,7 +38,7 @@
       /> -->
       <meta
         http-equiv="Content-Security-Policy"
-        content="default-src 'self' http: gym.ccsoluciones.com.co:*; script-src 'unsafe-inline' 'unsafe-eval' http: gym.ccsoluciones.com.co:* cdn.jsdelivr.net; connect-src http: gym.ccsoluciones.com.co:* ws://gym.ccsoluciones.com.co:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none'; img-src 'self' data: blob:;"
+        content="default-src 'self' http: truck.ccsoluciones.com.co:*; script-src 'unsafe-inline' 'unsafe-eval' http: truck.ccsoluciones.com.co:* cdn.jsdelivr.net; connect-src http: truck.ccsoluciones.com.co:* ws://truck.ccsoluciones.com.co:* ws://localhost:*; style-src 'unsafe-inline' https:; object-src 'none'; img-src 'self' data: blob:;"
       />
       <script type="systemjs-importmap">
         {
@@ -83,16 +83,16 @@
     <% if (isProd) { %>
       <meta
         http-equiv="Content-Security-Policy"
-        content="default-src 'self' http: truck.ccsoluciones.com.co:*; script-src 'unsafe-inline' 'unsafe-eval' http: truck.ccsoluciones.com.co:* cdn.jsdelivr.net; connect-src http: truck.ccsoluciones.com.co:* ws://truck.ccsoluciones.com.co:*; style-src 'unsafe-inline' https:; object-src 'none'; img-src 'self' data: blob:;"
+        content="default-src 'self' http: truck.ccsoluciones.com.co:*; script-src 'unsafe-inline' 'unsafe-eval' http: truck.ccsoluciones.com.co:* cdn.jsdelivr.net; connect-src http: truck.ccsoluciones.com.co:* ws://truck.ccsoluciones.com.co:*; style-src 'unsafe-inline' https: https://truck.ccsoluciones.com.co; object-src 'none'; img-src 'self' data: blob:;"
       />
       <script type="systemjs-importmap">
         {
           "imports": {
             "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.0/lib/system/single-spa.min.js",
-            "@Truck/root-config": "http://truck.ccsoluciones.com.co/truck/Truck-root-config.js",
-            "@Truck/auth": "http://truck.ccsoluciones.com.co/truck/truck-mf-auth/main.js",
-            "@Truck/base": "http://truck.ccsoluciones.com.co/truck/truck-mf-home/main.js",
-            "@Truck/site": "http://truck.ccsoluciones.com.co/truck/truck-mf-site/main.js"
+            "@Truck/root-config": "https://truck.ccsoluciones.com.co/truck/Truck-root-config.js",
+            "@Truck/auth": "https://truck.ccsoluciones.com.co/truck/truck-mf-auth/main.js",
+            "@Truck/base": "https://truck.ccsoluciones.com.co/truck/truck-mf-home/main.js",
+            "@Truck/site": "https://truck.ccsoluciones.com.co/truck/truck-mf-site/main.js"
           }
         }
       </script>
