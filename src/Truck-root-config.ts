@@ -10,19 +10,8 @@ if (globalThis.location.pathname === '/') {
 }
 
 if (globalThis.location.pathname === '/truck/') {
-  globalThis.history.pushState({}, '', '/truck/hub/home');
+  globalThis.history.pushState({}, '', '/truck/site/home');
 }
-
-registerApplication({
-  name: 'Truck_Mf_Home',
-  app: () =>
-    System.import<LifeCycles>(
-      process.env['NAME'] === 'local'
-        ? `${apiUrl}:4201/main.js`
-        : `${apiUrl}/truck/truck-mf-home/main.js`
-    ),
-  activeWhen: [(location) => location.pathname.startsWith(`${basePath}/hub`)],
-});
 
 registerApplication({
   name: 'Truck_Mf_Auth',
@@ -30,7 +19,7 @@ registerApplication({
     System.import<LifeCycles>(
       process.env['NAME'] === 'local'
         ? `${apiUrl}:4200/main.js`
-        : `${apiUrl}/truck/truck-mf-auth/main.js`
+        : `${apiUrl}/truck/truck-mf-auth/main.js`,
     ),
   activeWhen: [(location) => location.pathname.startsWith(`${basePath}/auth`)],
 });
@@ -41,7 +30,7 @@ registerApplication({
     System.import<LifeCycles>(
       process.env['NAME'] === 'local'
         ? `${apiUrl}:4202/main.js`
-        : `${apiUrl}/truck/truck-mf-site/main.js`
+        : `${apiUrl}/truck/truck-mf-site/main.js`,
     ),
   activeWhen: [(location) => location.pathname.startsWith(`${basePath}/site`)],
 });
