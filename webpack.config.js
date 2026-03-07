@@ -1,6 +1,7 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 const Dotenv = require("dotenv-webpack");
 
@@ -50,6 +51,12 @@ module.exports = (webpackConfigEnv, argv) => {
           isDev: webpackConfigEnv.isDev,
           orgName: orgName
         },
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: "src/manifest.json", to: "." },
+          { from: "src/assets/images/icons", to: "assets/images/icons" },
+        ],
       }),
     ],
   });
