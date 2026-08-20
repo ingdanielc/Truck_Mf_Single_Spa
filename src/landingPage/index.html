@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CashTruck - Gestión Financiera para Camioneros</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Oswald:wght@400;500;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1d4ed8",
+              "primary-hover": "#1e40af",
+              "background-light": "#f3f4f6",
+              "background-dark": "#0f172a",
+              "surface-light": "#ffffff",
+              "surface-dark": "#1e293b",
+              "text-light": "#1f2937",
+              "text-dark": "#e2e8f0",
+              "accent-red": "#dc2626",
+              whatsapp: "#25D366",
+              "whatsapp-hover": "#1da851",
+            },
+            fontFamily: {
+              display: ["Oswald", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+            },
+            backgroundImage: {
+              "hero-pattern":
+                "linear-gradient(to right bottom, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.7))",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+      }
+      /* Contador de visitas (freecounterstat): el script inyecta un <a><img>
+         con los digitos y un pixel de seguimiento de 1x1. */
+      .visit-counter {
+        display: inline-flex;
+        align-items: center;
+        line-height: 0;
+      }
+      .visit-counter img {
+        display: block;
+        height: 20px;
+        width: auto;
+        border-radius: 3px;
+      }
+      /* el pixel de seguimiento no debe ocupar espacio ni verse */
+      .visit-counter img[width="1"] {
+        position: absolute;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+      .hero-bg {
+        background-image:
+          linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)),
+          url(https://lh3.googleusercontent.com/aida-public/AB6AXuCRq_s5qAPBhMhIHTpjFuCcb4s29N_oiU8ZLJwMLr_Q6FmrevbdI3TSc7hYbxE3vVWee1-AX5hpIRAK_zufF5YaM4fNye4-sqO-qZLfI5BoasLs2q4Z_CxYzFkdWkdtaEO5OY_sol9NBxd10gU0_wcoYnksLnkwmL6y1l_loV7S28rE3avJyR5_LcluyGFvR4Ssezm8a3Gz2J0AXblPfhpMbRGT9mDEHSRLpJScIqauxQqV9elAjCzvCVaU6d460WQpy1xdgjlxZQ);
+        background-size: cover;
+        background-position: center;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-text-light dark:text-text-dark font-body antialiased transition-colors duration-300"
+  >
+    <nav
+      class="fixed w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-800 transition-colors duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <div class="flex-shrink-0 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-4xl"
+              >local_shipping</span
+            >
+            <div class="flex flex-col">
+              <span
+                class="font-display font-bold text-2xl tracking-wide text-gray-900 dark:text-white leading-none"
+                >Cash<span class="text-primary">Truck</span></span
+              >
+              <span
+                class="text-xs font-medium text-gray-500 dark:text-gray-400 mt-0.5"
+                >Menos gastos, más camino.</span
+              >
+            </div>
+          </div>
+          <div class="hidden md:flex items-center space-x-8">
+            <a
+              class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary font-medium transition-colors"
+              href="#beneficios"
+              >Beneficios</a
+            >
+            <a
+              class="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full font-bold shadow-lg shadow-blue-500/30 transition-all transform hover:scale-105"
+              href="https://truck.ccsoluciones.com.co/truck/auth/login"
+            >
+              Iniciar sesión
+            </a>
+          </div>
+          <div class="md:hidden flex items-center">
+            <button
+              class="text-gray-600 dark:text-gray-300 hover:text-white focus:outline-none"
+            >
+              <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <header
+      class="relative pt-24 pb-12 lg:pt-32 lg:pb-24 hero-bg min-h-screen flex items-center"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="text-center lg:text-left">
+            <div
+              class="inline-flex items-center px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 font-medium text-sm mb-6 animate-fade-in-up"
+            >
+              <span
+                class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"
+              ></span>
+              Gestión inteligente para transportadores
+            </div>
+            <h1
+              class="font-display text-3xl lg:text-4xl font-bold text-white leading-tight mb-6 drop-shadow-lg"
+            >
+              Deja de adivinar y empieza a saber
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-600"
+                >cuánto gana</span
+              >
+              realmente tu camión
+            </h1>
+            <p
+              class="text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+            >
+              Administra viajes, controla los gastos de ruta y mantenimientos, y
+              visualiza el histórico real de tus ganancias en una sola
+              plataforma.
+            </p>
+            <div
+              class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            >
+              <a
+                class="bg-primary hover:bg-primary-hover text-white text-lg px-8 py-4 rounded-lg font-bold shadow-xl shadow-blue-600/20 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                href="https://truck.ccsoluciones.com.co/truck/auth/login"
+              >
+                <span>Iniciar sesión</span>
+                <span class="material-symbols-outlined text-sm"
+                  >arrow_forward</span
+                >
+              </a>
+              <a
+                class="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white text-lg px-8 py-4 rounded-lg font-medium transition-all flex items-center justify-center gap-2"
+                href="#demo"
+              >
+                <span class="material-symbols-outlined">play_circle</span>
+                Ver Demo
+              </a>
+              <a
+                aria-label="Escribenos por WhatsApp"
+                class="group bg-whatsapp hover:bg-whatsapp-hover text-white w-14 h-14 shrink-0 mx-auto sm:mx-0 rounded-full shadow-xl shadow-green-600/30 transition-all transform hover:-translate-y-1 flex items-center justify-center"
+                href="https://wa.me/573147235739?text=Hola%2C%20quiero%20hacer%20parte%20de%20CashTruck"
+                rel="noopener noreferrer"
+                target="_blank"
+                title="Quiero hacer parte de CashTruck"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-7 h-7"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+            <div
+              class="mt-12 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-8 text-gray-400 text-sm font-medium"
+            >
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-green-500 text-base"
+                  >check_circle</span
+                >
+                <span>Sin tarjeta de crédito</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-green-500 text-base"
+                  >check_circle</span
+                >
+                <span>Instalación inmediata</span>
+              </div>
+            </div>
+          </div>
+          <div class="relative hidden lg:block">
+            <div
+              class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl blur opacity-30 animate-pulse"
+            ></div>
+            <div
+              class="relative bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden transform rotate-2 hover:rotate-0 transition-transform duration-500"
+            >
+              <div
+                class="bg-slate-800 p-4 border-b border-slate-700 flex items-center justify-between"
+              >
+                <div class="flex space-x-2">
+                  <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                  <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                  <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                </div>
+                <div class="text-xs text-slate-400 font-mono">
+                  dashboard.cashtruck.app
+                </div>
+              </div>
+              <div class="p-6 bg-slate-900">
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                  <div
+                    class="bg-slate-800 p-4 rounded-lg border border-slate-700"
+                  >
+                    <div class="text-slate-400 text-sm mb-1">
+                      Ingresos este mes
+                    </div>
+                    <div class="text-2xl font-bold text-green-400">
+                      $12,450.00
+                    </div>
+                    <div class="text-xs text-green-500 mt-2 flex items-center">
+                      <span class="material-symbols-outlined text-xs mr-1"
+                        >trending_up</span
+                      >
+                      +15% vs mes anterior
+                    </div>
+                  </div>
+                  <div
+                    class="bg-slate-800 p-4 rounded-lg border border-slate-700"
+                  >
+                    <div class="text-slate-400 text-sm mb-1">
+                      Gastos Operativos
+                    </div>
+                    <div class="text-2xl font-bold text-red-400">$4,230.00</div>
+                    <div class="text-xs text-slate-500 mt-2">
+                      Combustible, Peajes, Viáticos
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="bg-slate-800 p-4 rounded-lg border border-slate-700 h-48 flex items-end space-x-2 justify-between px-2"
+                >
+                  <div
+                    class="w-full bg-blue-900/30 h-full rounded flex items-end relative overflow-hidden"
+                  >
+                    <div
+                      class="w-1/6 bg-blue-600 h-[40%] mx-1 rounded-t opacity-80 hover:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                      class="w-1/6 bg-blue-600 h-[65%] mx-1 rounded-t opacity-80 hover:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                      class="w-1/6 bg-blue-600 h-[50%] mx-1 rounded-t opacity-80 hover:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                      class="w-1/6 bg-blue-600 h-[85%] mx-1 rounded-t opacity-80 hover:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                      class="w-1/6 bg-blue-600 h-[70%] mx-1 rounded-t opacity-80 hover:opacity-100 transition-opacity"
+                    ></div>
+                    <div
+                      class="w-1/6 bg-blue-500 h-[90%] mx-1 rounded-t shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce"
+      >
+        <span class="text-gray-400 text-xs uppercase tracking-widest mb-2"
+          >Descubre Más</span
+        >
+        <span class="material-symbols-outlined text-gray-400"
+          >keyboard_arrow_down</span
+        >
+      </div>
+    </header>
+    <section
+      class="py-24 bg-white dark:bg-slate-900 transition-colors duration-300"
+      id="beneficios"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2
+            class="font-display text-4xl font-bold text-gray-900 dark:text-white mb-4 uppercase tracking-wide"
+          >
+            Control Total de tus
+            <span class="text-primary border-b-4 border-primary"
+              >Vehículos</span
+            >
+          </h2>
+          <p class="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Diseñado específicamente para las necesidades reales de los dueños
+            de camiones.
+          </p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-20">
+          <div
+            class="group bg-gray-50 dark:bg-slate-800 p-8 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-none border border-gray-100 dark:border-slate-700 transition-all duration-300 transform hover:-translate-y-2"
+          >
+            <div
+              class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors duration-300"
+            >
+              <span
+                class="material-symbols-outlined text-3xl text-primary group-hover:text-white transition-colors duration-300"
+                >cloud_off</span
+              >
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              Adiós al Papel y Lápiz
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Olvida las libretas perdidas. Tus datos están seguros en la nube y
+              accesibles desde cualquier lugar. Registra viajes en segundos.
+            </p>
+          </div>
+          <div
+            class="group bg-gray-50 dark:bg-slate-800 p-8 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-none border border-gray-100 dark:border-slate-700 transition-all duration-300 transform hover:-translate-y-2"
+          >
+            <div
+              class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-600 transition-colors duration-300"
+            >
+              <span
+                class="material-symbols-outlined text-3xl text-green-600 group-hover:text-white transition-colors duration-300"
+                >paid</span
+              >
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              Utilidad Real por Viaje
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Cálculos automáticos al instante: <br />
+              <span
+                class="font-mono text-sm bg-gray-200 dark:bg-slate-900 px-2 py-1 rounded mt-1 inline-block"
+                >Flete - (Combustible + Peajes + Gastos)</span
+              >
+            </p>
+          </div>
+          <div
+            class="group bg-gray-50 dark:bg-slate-800 p-8 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-none border border-gray-100 dark:border-slate-700 transition-all duration-300 transform hover:-translate-y-2"
+          >
+            <div
+              class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent-red transition-colors duration-300"
+            >
+              <span
+                class="material-symbols-outlined text-3xl text-accent-red group-hover:text-white transition-colors duration-300"
+                >build_circle</span
+              >
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              Control de Mantenimiento
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Alertas preventivas para cambios de aceite, rotación de llantas y
+              reparaciones. Evita paradas costosas e inesperadas.
+            </p>
+          </div>
+          <div
+            class="group bg-gray-50 dark:bg-slate-800 p-8 rounded-2xl shadow-sm hover:shadow-xl dark:shadow-none border border-gray-100 dark:border-slate-700 transition-all duration-300 transform hover:-translate-y-2"
+          >
+            <div
+              class="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors duration-300"
+            >
+              <span
+                class="material-symbols-outlined text-3xl text-purple-600 group-hover:text-white transition-colors duration-300"
+                >bar_chart</span
+              >
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+              Tu Negocio en el Tiempo
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 leading-relaxed">
+              Gráficas claras para comparar este mes con el anterior.
+            </p>
+          </div>
+        </div>
+        <div
+          class="mt-16 bg-gray-100 dark:bg-slate-800/50 rounded-3xl p-6 lg:p-10 border border-gray-200 dark:border-slate-700"
+        >
+          <div class="flex flex-col md:flex-row gap-6 lg:gap-10 items-center">
+            <div class="w-full md:w-1/2 relative group">
+              <div
+                class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"
+              ></div>
+              <div
+                class="relative overflow-hidden rounded-2xl shadow-xl aspect-video bg-slate-900"
+              >
+                <img
+                  alt="Classic blue Kenworth truck in snowy mountains"
+                  class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa6yIByECwzBpBAz81jbWrUOUh9cZwDYdAGxN8tHRH3HluCaVBDw9q9t7Th9oqu2ixAPmTevanbW94ZwJt6qP3tNzZ94qfd-9A6yEaCiQ3QFRcEscmJIdcrfSl7EC8ogNHyzAgfQdsYBTnHKMe05Mn6ftZXxiKqCI3NyeBdQnc3sb7bdOy6m595sFvXtZCGE0ZD8XNjxIrdt2P6iQW2B8L_zlyCkszCN3EAzT-s4qBNnmVUi1ooQ1ZNjJakvU0HjDUmibp0gT3pg"
+                />
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 lg:p-6"
+                >
+                  <span class="text-white font-display font-bold text-xl block"
+                    >Potencia en Carretera</span
+                  >
+                  <span class="text-blue-300 text-sm"
+                    >Gestiona flotas de alto calibre</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2 relative group">
+              <div
+                class="absolute -inset-1 bg-gradient-to-r from-slate-600 to-gray-500 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-1000"
+              ></div>
+              <div
+                class="relative overflow-hidden rounded-2xl shadow-xl aspect-video bg-slate-900"
+              >
+                <img
+                  alt="Black Kenworth truck with decals in autumn forest"
+                  class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBI2KFb7jAr7wxp57kDqFGMxJezucz8Ry-CTEJI1BYfXDXwed6-WNEbFYYhxku2bgB0hDTzzRQzGEXCcMj1fvka6F6xjkp0f8qM-EBPeqqv-CccX7qp_-zZT6S1TgyLxA42OxgauCATEaM_mLp4Cy0QRnKWh2gaPL3chs-tPwKbdg67yGWDZ5rBABfzDqOLl_FRD3ahJC-bgGoY9DGLxvCtz82Ndyn__vEMLlsYwgsRE1blNKqEcK6_yS4TDksHEjJHGm3reCNm_A"
+                />
+                <div
+                  class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 lg:p-6"
+                >
+                  <span class="text-white font-display font-bold text-xl block"
+                    >Estilo y Eficiencia</span
+                  >
+                  <span class="text-gray-300 text-sm"
+                    >Control detallado de cada unidad</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <p
+            class="text-center text-sm text-gray-500 dark:text-gray-400 mt-6 italic"
+          >
+            Compatible con todo tipo de vehículos pesados y tractocamiones.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-24 bg-gray-100 dark:bg-slate-800 relative overflow-hidden"
+    >
+      <div
+        class="absolute inset-0 opacity-10 dark:opacity-5 pointer-events-none"
+      >
+        <svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern
+              height="40"
+              id="grid"
+              patternUnits="userSpaceOnUse"
+              width="40"
+            >
+              <path
+                d="M 40 0 L 0 0 0 40"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1"
+              ></path>
+            </pattern>
+          </defs>
+          <rect fill="url(#grid)" height="100%" width="100%"></rect>
+        </svg>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="order-2 lg:order-1">
+            <div
+              class="relative rounded-xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-600"
+            >
+              <img
+                alt="Dashboard de CashTruck mostrando la evolucion mensual del negocio"
+                class="w-full h-auto transform hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+                src="Dash.png"
+              />
+              <div
+                class="absolute bottom-6 right-6 bg-white dark:bg-slate-900 p-4 rounded-lg shadow-xl max-w-xs animate-bounce"
+                style="animation-duration: 3s"
+              >
+                <div class="flex items-start gap-3">
+                  <div
+                    class="bg-green-100 dark:bg-green-900/50 p-2 rounded-full"
+                  >
+                    <span class="material-symbols-outlined text-green-600"
+                      >trending_up</span
+                    >
+                  </div>
+                  <div>
+                    <p
+                      class="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase"
+                    >
+                      Rentabilidad Mensual
+                    </p>
+                    <p class="text-xl font-bold text-gray-900 dark:text-white">
+                      + 24.5%
+                    </p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      vs. mes pasado
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="order-1 lg:order-2">
+            <h2
+              class="font-display text-4xl font-bold text-gray-900 dark:text-white mb-6 uppercase"
+            >
+              Tu Negocio en el <span class="text-primary">Tiempo</span>
+            </h2>
+            <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">
+              No solo registres datos, analízalos. Nuestro dashboard te permite
+              ver la evolución de tu negocio mes a mes. Identifica qué rutas son
+              más rentables y dónde se está escapando tu dinero.
+            </p>
+            <ul class="space-y-6">
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 h-8 w-8 rounded-full bg-primary flex items-center justify-center mr-4 mt-1"
+                >
+                  <span class="material-symbols-outlined text-white text-sm"
+                    >bar_chart</span
+                  >
+                </span>
+                <div>
+                  <h4 class="text-lg font-bold text-gray-900 dark:text-white">
+                    Visualización Gráfica
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Gráficos intuitivos que te muestran ingresos vs gastos al
+                    instante.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 h-8 w-8 rounded-full bg-primary flex items-center justify-center mr-4 mt-1"
+                >
+                  <span class="material-symbols-outlined text-white text-sm"
+                    >history</span
+                  >
+                </span>
+                <div>
+                  <h4 class="text-lg font-bold text-gray-900 dark:text-white">
+                    Histórico de Rutas
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Consulta cuánto ganaste en ese viaje a la costa hace 3
+                    meses.
+                  </p>
+                </div>
+              </li>
+              <li class="flex items-start">
+                <span
+                  class="flex-shrink-0 h-8 w-8 rounded-full bg-primary flex items-center justify-center mr-4 mt-1"
+                >
+                  <span class="material-symbols-outlined text-white text-sm"
+                    >receipt_long</span
+                  >
+                </span>
+                <div>
+                  <h4 class="text-lg font-bold text-gray-900 dark:text-white">
+                    Reportes Exportables
+                  </h4>
+                  <p class="text-gray-600 dark:text-gray-400">
+                    Descarga tus reportes en PDF o Excel para tu contador.
+                  </p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 bg-slate-900 border-y border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-8"
+        >
+          <div class="text-center md:text-left">
+            <h3
+              class="text-2xl md:text-3xl font-bold text-white mb-2 font-display"
+            >
+              Únete a más de
+              <span class="text-primary">500 camioneros</span> que ya controlan
+              sus finanzas
+            </h3>
+            <p class="text-slate-400">Empieza hoy mismo.</p>
+          </div>
+          <div>
+            <a
+              aria-label="Crear cuenta en CashTruck por WhatsApp"
+              class="inline-flex items-center gap-3 bg-white text-slate-900 hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition-colors"
+              href="https://wa.me/573147235739?text=Hola%2C%20quiero%20crear%20una%20cuenta%20en%20CashTruck"
+              rel="noopener noreferrer"
+              target="_blank"
+              title="Quiero crear una cuenta en CashTruck"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-6 h-6 text-whatsapp shrink-0"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"></path>
+              </svg>
+              Crear Cuenta
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <footer
+      class="bg-white dark:bg-background-dark pt-16 pb-8 border-t border-gray-200 dark:border-slate-800 transition-colors duration-300"
+    >
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+          <div class="col-span-1">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="material-symbols-outlined text-primary text-3xl"
+                >local_shipping</span
+              >
+              <div class="flex flex-col">
+                <span
+                  class="font-display font-bold text-xl tracking-wide text-gray-900 dark:text-white leading-none"
+                  >Cash<span class="text-primary">Truck</span></span
+                >
+              </div>
+            </div>
+            <p
+              class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-sm"
+            >
+              La herramienta definitiva para la administración financiera de
+              transportadores independientes y pequeñas flotas.
+            </p>
+          </div>
+          <div class="flex flex-col justify-start">
+            <h4
+              class="font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+            >
+              Información de contacto
+            </h4>
+            <ul class="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">person</span>
+                Daniel Castro - Ingeniero de Sistemas
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">email</span>
+                ingdanielc@hotmail.com
+              </li>
+              <li>
+                <a
+                  class="inline-flex items-center gap-2 hover:text-whatsapp transition-colors"
+                  href="https://wa.me/573147235739?text=Hola%2C%20quiero%20hacer%20parte%20de%20CashTruck"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  title="Quiero hacer parte de CashTruck"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-4 h-4 text-whatsapp shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"
+                    ></path>
+                  </svg>
+                  <span>314 723 57 39</span>
+                </a>
+              </li>
+              <li class="flex gap-4 mt-6">
+                <a
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  href="#"
+                  ><span class="sr-only">Facebook</span>FB</a
+                >
+                <a
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  href="#"
+                  ><span class="sr-only">Twitter</span>TW</a
+                >
+                <a
+                  class="text-gray-400 hover:text-primary transition-colors"
+                  href="#"
+                  ><span class="sr-only">Instagram</span>IG</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="border-t border-gray-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-500"
+        >
+          <p>© 2026 CashTruck Inc. Todos los derechos reservados.</p>
+          <div
+            class="flex items-center gap-2 order-first md:order-none mb-6 md:mb-0"
+            title="Visitas a esta página"
+          >
+            <span class="material-symbols-outlined text-base text-gray-400"
+              >visibility</span
+            >
+            <span class="text-xs uppercase tracking-wider text-gray-400"
+              >Visitas</span
+            >
+            <div
+              class="visit-counter"
+              id="sfcw4de4pg6usydsxz8hqtgs4xuc7c4clck"
+            ></div>
+            <noscript
+              ><a
+                href="https://www.freecounterstat.com"
+                title="free web page counter"
+                ><img
+                  src="https://counter1.optistats.ovh/private/freecounterstat.php?c=w4de4pg6usydsxz8hqtgs4xuc7c4clck"
+                  border="0"
+                  style="height: 20px; width: auto"
+                  title="free web page counter"
+                  alt="free web page counter" /></a
+            ></noscript>
+          </div>
+          <p>
+            Hecho con el <span class="text-red-500">♥</span> para la carretera.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script
+      type="text/javascript"
+      src="https://counter1.optistats.ovh/private/counter.js?c=w4de4pg6usydsxz8hqtgs4xuc7c4clck&down=async"
+      async
+    ></script>
+    <script>
+      // El contador se genera a la mitad de resolucion (coef=0.5) y se ve
+      // borroso. Al inyectarse, se vuelve a pedir la misma imagen a 2x para
+      // que quede nitida; pv=0 significa que esta llamada no suma visitas
+      // (el conteo lo hace el pixel de seguimiento del propio script).
+      (function () {
+        var box = document.getElementById("sfcw4de4pg6usydsxz8hqtgs4xuc7c4clck");
+        if (!box || !window.MutationObserver) return;
+        var sharpen = function () {
+          var img = box.querySelector('img[src*="counter.php"]');
+          if (!img || img.src.indexOf("coef=0.5") === -1) return !!img;
+          img.src = img.src.replace("coef=0.5", "coef=2");
+          return true;
+        };
+        if (sharpen()) return;
+        var obs = new MutationObserver(function () {
+          if (sharpen()) obs.disconnect();
+        });
+        obs.observe(box, { childList: true, subtree: true });
+      })();
+    </script>
+  </body>
+</html>
