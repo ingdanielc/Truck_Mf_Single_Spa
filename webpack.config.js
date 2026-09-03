@@ -49,12 +49,16 @@ module.exports = (webpackConfigEnv, argv) => {
           isProd: webpackConfigEnv.isProd,
           isQa: webpackConfigEnv.isQa,
           isDev: webpackConfigEnv.isDev,
-          orgName: orgName
+          orgName: orgName,
         },
       }),
       new CopyWebpackPlugin({
         patterns: [
           { from: "src/manifest.json", to: "." },
+          // El service worker DEBE quedar en la raiz: su scope solo alcanza las
+          // rutas por debajo de su ubicacion, y la app vive en /truck/site.
+          // `sw-killswitch.js` no se copia a proposito, es solo de recuperacion.
+          { from: "src/sw.js", to: "." },
           { from: "src/assets/images/icons", to: "assets/images/icons" },
         ],
       }),

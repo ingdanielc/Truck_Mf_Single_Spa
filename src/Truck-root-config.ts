@@ -39,3 +39,17 @@ registerApplication({
 start({
   urlRerouteOnly: true,
 });
+
+// Service worker de notificaciones push. Se registra despues del `load` para no
+// competir con la descarga de los micro-frontends, y solo sobre HTTPS o
+// localhost (el navegador lo rechaza en http plano).
+//
+// No cachea nada: ver src/sw.js. Un fallo aqui no puede tumbar la app — sin
+// service worker simplemente no hay push y todo lo demas sigue igual.
+if ('serviceWorker' in navigator) {
+  globalThis.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      console.warn('[push] no se pudo registrar el service worker', error);
+    });
+  });
+}
