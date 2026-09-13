@@ -324,14 +324,15 @@
             Un recorrido rápido por la plataforma: viajes, gastos y ganancias.
           </p>
         </div>
-        <div class="relative group">
+        <!-- El video se grabo con celular (vertical): contenedor angosto. -->
+        <div class="relative group max-w-sm mx-auto">
           <div
             class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl blur opacity-30"
           ></div>
           <!-- preload="metadata": el video pesa ~9 MB, solo se descarga
                completo cuando el usuario le da play. -->
           <video
-            class="relative w-full rounded-2xl shadow-2xl border border-slate-700 bg-black aspect-video"
+            class="relative w-full rounded-2xl shadow-2xl border border-slate-700 bg-black aspect-[9/16]"
             controls
             playsinline
             preload="metadata"
@@ -533,7 +534,7 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center">
           <div class="order-2 lg:order-1">
             <div
-              class="relative rounded-xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-600"
+              class="relative max-w-md mx-auto rounded-xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-600"
             >
               <img
                 alt="Dashboard de CashTruck mostrando la evolucion mensual del negocio"
